@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(MyQtApp)
+project(GRAFCETExample)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -18,7 +18,7 @@ set(CMAKE_AUTORCC ON) # Si tienes archivos .qrc
 find_package(Qt6 COMPONENTS Core Widgets StateMachine REQUIRED)
 
 # Añade tu ejecutable
-add_executable(${PROJECT_NAME} main.cpp GemmaState.cpp CyclicExecutionState.cpp)
+add_executable(${PROJECT_NAME} main.cpp GRAFCETExample.cpp GRAFCETStep.cpp)
 
 
 # Enlaza las bibliotecas de Qt6 a tu ejecutable

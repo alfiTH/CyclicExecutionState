@@ -1,11 +1,11 @@
-#include "GemmaState.h"
+#include "GRAFCETExample.h"
 
-GuiaGEMMA::GuiaGEMMA()
+GRAFCETExample::GRAFCETExample()
 {
     //Crear los estados
-    CyclicExecutionState *s1 = new CyclicExecutionState("s1", 500, std::bind(&GuiaGEMMA::func_s1, this));
-    CyclicExecutionState *s2 = new CyclicExecutionState("s2", 500, std::bind(&GuiaGEMMA::func_s2, this));
-    CyclicExecutionState *s3 = new CyclicExecutionState("s3", 500, std::bind(&GuiaGEMMA::func_s3, this));
+    GRAFCETStep *s1 = new GRAFCETStep("s1", 500, std::bind(&GRAFCETExample::func_s1, this), std::bind(&GRAFCETExample::entry_s1, this));
+    GRAFCETStep *s2 = new GRAFCETStep("s2", 500, std::bind(&GRAFCETExample::func_s2, this), nullptr, std::bind(&GRAFCETExample::exit_s2, this));
+    GRAFCETStep *s3 = new GRAFCETStep("s3", 500, std::bind(&GRAFCETExample::func_s3, this));
 
     //enlaza las transiciones
     s1->addTransition(this, SIGNAL(goToS2()), s2);
@@ -30,23 +30,32 @@ GuiaGEMMA::GuiaGEMMA()
     }
 
 
-    //Comprobador de cual estado esta activo(solo visual, no es necesario)
-    timer = new QTimer(this);
-    connect(this->timer, &QTimer::timeout, this, &GuiaGEMMA::transition);
-    timer->start(1000);
-}   
+}
 
 //Función de visualización de estados activos
-void GuiaGEMMA::transition(){
+void GRAFCETExample::transition(){
     QSet<QAbstractState*> activeStates = machine.configuration();
     for(QAbstractState* state : activeStates) 
         qDebug() << "Estado activo:" << state->objectName();
 }
 
 
+
 /////////////////////Funciones de ejecución de estados////////////////////
-///////////////////////////Como sui fueran computes///////////////////////
-void GuiaGEMMA::func_s1() {
+
+/////////////////////Función de entrada a estado////////////////////////////
+
+void GRAFCETExample::entry_s1(){
+    qInfo() << "///////Entrando al estado s1 desde la función de entrada///////////////////";
+    transition();
+}
+
+///////////////////Función de salida a estado////////////////////////////
+void GRAFCETExample::exit_s2(){
+    qInfo() << "///////Salida del estado s2 desde la función de salida///////////////////";
+}
+///////////////////////////Como si fueran computes///////////////////////
+void GRAFCETExample::func_s1() {
     
     qInfo()<<"s1"<<i;
     i++;
@@ -56,7 +65,7 @@ void GuiaGEMMA::func_s1() {
         emit goToS2();
     }    
 }
-void GuiaGEMMA::func_s2() {
+void GRAFCETExample::func_s2() {
     if (check)
     {
         qInfo()<<"s2"<<n;
@@ -77,7 +86,7 @@ void GuiaGEMMA::func_s2() {
         emit goToS1();
     }
 }
-void GuiaGEMMA::func_s3() {
+void GRAFCETExample::func_s3() {
     qInfo()<<"s3"<<j;
     j++;
 

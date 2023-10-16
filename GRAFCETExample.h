@@ -1,18 +1,18 @@
-#ifndef GEMMASTATE_H
-#define GEMMASTATE_H
+#ifndef GRAFCETEXAMPLE_H
+#define GRAFCETEXAMPLE_H
 
 #include <QStateMachine>
 #include <QEvent>
 #include <QString>
 #include <chrono>
-#include "CyclicExecutionState.h"
+#include "GRAFCETStep.h"
 #include <functional>
 
-class GuiaGEMMA : public QObject
+class GRAFCETExample : public QObject
 {
     Q_OBJECT
 public:
-    GuiaGEMMA();
+    GRAFCETExample();
     QStateMachine machine;
     int i =0, n = 0, j = 0;
 
@@ -20,13 +20,16 @@ private:
     
     bool check = false;
     QTimer *timer;
-    void transition();
-
+    void transition(); 
+    
 //Funciones de los estados
 public slots:
+    
     void func_s1();
     void func_s2();
     void func_s3();
+    void entry_s1();
+    void exit_s2();
     
 //Señales para transiciones entre estados
 signals: 
@@ -36,4 +39,4 @@ signals:
 };
 
 
-#endif // GEMMASTATE_H
+#endif // GRAFCETEXAMPLE_H

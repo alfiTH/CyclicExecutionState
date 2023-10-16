@@ -1,9 +1,8 @@
 #include <QCoreApplication>
-#include <QStateMachine>
-#include "GemmaState.h"
+#include "GRAFCETExample.h"
 
 int main(int argc, char *argv[]) {
     QCoreApplication app(argc, argv);
-    GuiaGEMMA gemma;
+    GRAFCETExample Example;
     return app.exec();
 };
